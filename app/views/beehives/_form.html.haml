@@ -1,0 +1,24 @@
+= form_for @beehive, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :codigo, :class => 'control-label'
+    .controls
+      = f.text_field :codigo, :class => 'text_field'
+  .control-group
+    = f.fields_for :apiary do |sub|
+      = sub.label :apiary, :class => 'control-label'
+      .controls
+        - if @beehive.apiary.nil?
+          = sub.select(:apiary_id, Apiary.all.collect {|a| [ a.name, a.id ] }, {:prompt => 'Select Apiary'})
+        - else
+          = sub.select(:apiary_id, Apiary.all.collect {|a| [ a.name, a.id ] }, :selected => @beehive.apiary_id)
+  .control-group
+    = f.fields_for :beehive do |sub|
+      = sub.label :beehive, :class => 'control-label'
+      .controls
+        - if @beehive.beehive.nil?
+          = sub.select(:beehive_id, Beehive.all.collect {|b| [ b.codigo, b.id ] }, {:prompt => 'Select Parent Beehive'})
+        - else
+          = sub.select(:beehive_id, Beehive.all.collect {|b| [ b.codigo, b.id ] }, :selected => @beehive.beehive_id)
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), beehives_path, :class => 'btn'

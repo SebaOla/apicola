@@ -1,0 +1,35 @@
+- p_class = Product
+= form_for @bill, :html => { :class => 'form-horizontal' } do |f|      
+  .control-group
+    = f.fields_for :customer do |sub|
+      = sub.label :customer, :class => 'control-label'
+      .controls
+        - if @bill.customer.nil?
+          = sub.select(:customer_id, Customer.all.collect {|a| [ a.name, a.id ] }, {:prompt => 'Select Customer'})
+        - else
+          = sub.select(:customer_id, Customer.all.collect {|a| [ a.name, a.id ] }, :selected => @bill.customer_id)
+
+  .control-group
+    = f.label :date, :class => 'control-label'
+    .controls
+      = f.date_select :date, :class => 'date_select'
+      
+  .control-group
+    .navbar
+      .navbar-inner
+        %a.brand{href: "#"}= 'Productos'
+        .navbar-form.pull-left
+          %input.span2{id: 'product_name', type: 'text', placeholder: 'Search'}
+          .btn{onclick: 'javascript:products_search()'}= 'Buscar'
+    
+      %div{id: 'products_content'}
+        = render :partial => "/products/add", locals: {products: @bill.products}
+
+  .control-group
+    = f.label :total_amount, :class => 'control-label'
+    .controls
+      = f.text_field :total_amount, :class => 'text_field'
+
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), bills_path, :class => 'btn'

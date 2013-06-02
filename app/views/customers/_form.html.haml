@@ -1,0 +1,24 @@
+= form_for @customer, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      = f.text_field :name, :class => 'text_field'
+  .control-group
+    = f.label :adress, :class => 'control-label'
+    .controls
+      = f.text_field :adress, :class => 'text_field'
+  .control-group
+    = f.label :business_phone, :class => 'control-label'
+    .controls
+      = f.text_field :business_phone, :class => 'text_field'
+  .control-group
+    = f.label :personal_phone, :class => 'control-label'
+    .controls
+      = f.text_field :personal_phone, :class => 'text_field'
+  .control-group
+    = f.label :coordinates, :class => 'control-label'
+    .controls
+      = f.text_field :coordinates, :class => 'text_field'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), customers_path, :class => 'btn'

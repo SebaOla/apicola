@@ -1,0 +1,36 @@
+- model_class = Beehive
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human
+
+%p
+  %strong= model_class.human_attribute_name(:codigo) + ':'
+  = @beehive.codigo
+%p
+  %strong= model_class.human_attribute_name(:apiary_id) + ':'
+  = link_to @beehive.apiary.name, apiary_path(@beehive.apiary) unless @beehive.apiary.nil?
+%p
+  %strong= model_class.human_attribute_name(:beehive_id) + ':'
+  = !@beehive.beehive.nil? ? @beehive.beehive.codigo : " - "
+  
+%p
+  %strong= model_class.human_attribute_name(:tasks) + ':'
+  %br
+  = render partial: "tasks/index", locals: {tasks: @beehive.tasks}
+
+
+.form-actions
+  = link_to t('.back', :default => t("helpers.links.back")), beehives_path, :class => 'btn'
+  = link_to t('.edit', :default => t("helpers.links.edit")), edit_beehive_path(@beehive), :class => 'btn'
+  = link_to t('.destroy', :default => t("helpers.links.destroy")), beehive_path(@beehive), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+
+%p
+  %strong= model_class.human_attribute_name(:QR) + ':'
+  %br
+  %table
+    - @qr.modules.each_index do |x|
+      %tr
+        - @qr.modules.each_index do |y|
+          - if @qr.dark?(x,y)
+            %td.black/
+          - else
+            %td.white/
